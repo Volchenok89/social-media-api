@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/users", async (request, response) => {
+app.post("/api/users", async (request, response) => {
     const user = new User(request.body);
 
     try {
@@ -22,7 +22,7 @@ app.post("/users", async (request, response) => {
     }
 });
 
-app.post("/users/:userId/friends/:friendId", async (req, res) => {
+app.post("/api/users/:userId/friends/:friendId", async (req, res) => {
     const userId = req.params.userId;
     const friendId = req.params.friendId;
     await User.updateOne({ _id: userId }, { $push: { friends: friendId }, $inc: { friendsCount: 1 } } );
@@ -31,7 +31,7 @@ app.post("/users/:userId/friends/:friendId", async (req, res) => {
     res.send(user);
 });
 
-app.delete("/users/:userId/friends/:friendId", async (req, res) => {
+app.delete("/api/users/:userId/friends/:friendId", async (req, res) => {
     const userId = req.params.userId;
     const friendId = req.params.friendId;
     await User.updateOne({ _id: userId }, { $pullAll: {friends: [friendId] }, $inc: { friendsCount: -1 } } );
@@ -40,13 +40,13 @@ app.delete("/users/:userId/friends/:friendId", async (req, res) => {
     res.send(user);
 });
 
-app.put("/users/:id", async (req, res) => {
+app.put("/api/users/:id", async (req, res) => {
     await User.updateOne({ _id: req.params.id }, req.body);
     let user = await User.findOne({ _id: req.params.id });
     res.send(user);
 });
 
-app.delete("/users/:id", async (req, res) => {
+app.delete("/api/users/:id", async (req, res) => {
     let user = await User.findOne({ _id: req.params.id });
 
     if (user != null) {
@@ -66,7 +66,7 @@ app.delete("/users/:id", async (req, res) => {
     }
 });
 
-app.get("/users", async (request, response) => {
+app.get("/api/users", async (request, response) => {
     const users = await User.aggregate([{
         $lookup: {
             from: "thoughts",
@@ -84,7 +84,7 @@ app.get("/users", async (request, response) => {
     }
 });
 
-app.get("/users/:userId", async (req, res) => {
+app.get("/api/users/:userId", async (req, res) => {
     const users = await User.aggregate([{
         $lookup: {
             from: "thoughts",
@@ -101,7 +101,7 @@ app.get("/users/:userId", async (req, res) => {
     }
 });
 
-app.post("/thoughts", async (req, res) => {
+app.post("/api/thoughts", async (req, res) => {
     const thought = new Thought(req.body);
 
     try {
@@ -113,7 +113,7 @@ app.post("/thoughts", async (req, res) => {
     }
 });
 
-app.get("/thoughts", async (req, res) => {
+app.get("/api/thoughts", async (req, res) => {
     const thoughts = await Thought.find({});
   
     try {
@@ -124,7 +124,7 @@ app.get("/thoughts", async (req, res) => {
     }
 });
 
-app.get("/thoughts/:thoughtId", async (req, res) => {
+app.get("/api/thoughts/:thoughtId", async (req, res) => {
     const thought = await Thought.findOne({ _id: req.params.thoughtId });
   
     try {
@@ -135,7 +135,7 @@ app.get("/thoughts/:thoughtId", async (req, res) => {
     }
 });
 
-app.post("/thoughts/:thoughtId/reactions", async (req, res) => {
+app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
     const thoughtId = req.params.thoughtId;
     
     await Thought.updateOne({ _id: thoughtId }, { $push: { reactions: req.body }, $inc: { reactionsCount: 1 } } );
