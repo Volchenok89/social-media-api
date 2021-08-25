@@ -113,6 +113,23 @@ app.post("/api/thoughts", async (req, res) => {
     }
 });
 
+app.delete("/api/thoughts/:id", async (req, res) => {
+    let thought = await Thought.findOne({ _id: req.params.id });
+
+    if (thought != null) {
+        await Thought.deleteOne({ _id: req.params.id });
+
+        res.send({
+            "message": "Thought deleted"
+        });
+    }
+    else {
+        res.send({
+            "message": "Thought id not found"
+        });
+    }
+});
+
 app.get("/api/thoughts", async (req, res) => {
     const thoughts = await Thought.find({});
   
