@@ -163,12 +163,16 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 
 
 //UPDATED post//
-app.put("/api/thoughts/:id", async (req, res) => {
-    await thought.findOne({ _id: req.params.id }, req.body);
-    let thought = await Thought.updateOne({ _id: req.params.id });
+
+
+app.post("/api/thoughts/:id", async (req, res) => {
+    const thoughtId = req.params.thoughtId;
+    
+    await Thought.updateOne({ _id: thoughtId }, { $push: { reactions: req.body }, $inc: { reactionsCount: 1 } } );
+    
+    const thought = await Thought.findOne({ _id: thoughtId });
     res.send(thought);
 });
-
 
 //END UPDATED//
 
