@@ -130,14 +130,6 @@ app.delete("/api/thoughts/:id", async (req, res) => {
     }
 });
 
-//UPDATED//
-app.put("/api/thoughts/:id", async (req, res) => {
-    await thought.updateOne({ _id: req.params.id }, req.body);
-    let thought = await Thought.findOne({ _id: req.params.id });
-    res.send(thought);
-});
-//END UPDATED//
-
 
 app.get("/api/thoughts", async (req, res) => {
     const thoughts = await Thought.find({});
