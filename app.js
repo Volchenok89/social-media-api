@@ -189,6 +189,24 @@ app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
 });
 
 
+app.delete("/api/thoughts/:thoughtId/reactions", async (req, res) => {
+    let thought = await Thought.findOne({ _id: req.params.id });
+
+    if (thought != null) {
+        await Thought.deleteOne({ _id: req.params.id });
+
+        res.send({
+            "message": "Reaction deleted"
+        });
+    }
+    else {
+        res.send({
+            "message": "Reaction id not found"
+        });
+    }
+});
+
+
 app.listen(PORT, async () => {
 
     await mongoose.connect(config.dbConnectionString, {
