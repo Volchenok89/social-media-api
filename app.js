@@ -162,6 +162,16 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 });
 
 
+//UPDATED post//
+app.put("/api/thoughts/:id", async (req, res) => {
+    await thought.findOne({ _id: req.params.id }, req.body);
+    let thought = await Thought.updateOne({ _id: req.params.id });
+    res.send(thought);
+});
+
+
+//END UPDATED//
+
 
 //REACTIONS//
 
@@ -173,17 +183,6 @@ app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
     const thought = await Thought.findOne({ _id: thoughtId });
     res.send(thought);
 });
-
-
-//UPDATED//
-app.put("/api/thoughts/:id", async (req, res) => {
-    await thought.updateOne({ _id: req.params.id }, req.body);
-    let thought = await Thought.findOneAndUpdate({ _id: req.params.id });
-    res.send(thought);
-});
-
-
-//END UPDATED//
 
 
 app.listen(PORT, async () => {
