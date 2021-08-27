@@ -22,6 +22,8 @@ app.post("/api/users", async (request, response) => {
     }
 });
 
+//FRIENDS//
+
 app.post("/api/users/:userId/friends/:friendId", async (req, res) => {
     const userId = req.params.userId;
     const friendId = req.params.friendId;
@@ -39,6 +41,9 @@ app.delete("/api/users/:userId/friends/:friendId", async (req, res) => {
     const user = await User.findOne({ _id: userId });
     res.send(user);
 });
+
+
+//USERS//
 
 app.put("/api/users/:id", async (req, res) => {
     await User.updateOne({ _id: req.params.id }, req.body);
@@ -101,6 +106,10 @@ app.get("/api/users/:userId", async (req, res) => {
     }
 });
 
+
+
+//THOUGHTS//
+
 app.post("/api/thoughts", async (req, res) => {
     const thought = new Thought(req.body);
 
@@ -130,7 +139,6 @@ app.delete("/api/thoughts/:id", async (req, res) => {
     }
 });
 
-
 app.get("/api/thoughts", async (req, res) => {
     const thoughts = await Thought.find({});
   
@@ -153,6 +161,10 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
     }
 });
 
+
+
+//REACTIONS//
+
 app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
     const thoughtId = req.params.thoughtId;
     
@@ -161,6 +173,18 @@ app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
     const thought = await Thought.findOne({ _id: thoughtId });
     res.send(thought);
 });
+
+
+//UPDATED//
+app.put("/api/thoughts/:id", async (req, res) => {
+    await thought.updateOne({ _id: req.params.id }, req.body);
+    let thought = await Thought.findOneAndUpdate({ _id: req.params.id });
+    res.send(thought);
+});
+
+
+//END UPDATED//
+
 
 app.listen(PORT, async () => {
 
