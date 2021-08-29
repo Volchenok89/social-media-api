@@ -10,7 +10,7 @@ ___
 * [Links](#links)
 * [Credits](#credits)
 * [License](#license)
-* [Getting Started](#getting started)
+* [Getting Started](#getting-started)
 
 
 ___
