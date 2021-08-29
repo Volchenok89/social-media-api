@@ -3,6 +3,7 @@ const config = require('./config');
 const mongoose = require('mongoose');
 const { User, Thought, Reaction } = require("./models");
 const { response } = require('express');
+var ObjectId = require('mongodb').ObjectID;
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -177,17 +178,26 @@ app.put("/api/thoughts/:thoughtId", async (req, res) => {
 
 app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
     const thoughtId = req.params.thoughtId;
+    var id = mongoose.Types.ObjectId();
+    let reaction = req.body;
+    reaction._id = id;
     
-    await Thought.updateOne({ _id: thoughtId }, { $push: { reactions: req.body }, $inc: { reactionsCount: 1 } } );
+    await Thought.updateOne({ _id: thoughtId }, { $push: { reactions: reaction }, $inc: { reactionsCount: 1 } } );
     
     const thought = await Thought.findOne({ _id: thoughtId });
     res.send(thought);
 });
 
 
-//NEEDS A DELETE REACTION CODE//
-
-
+app.delete("/api/thoughts/:thoughtId/reactions/:reactionId", async (req, res) => {
+    const thoughtId = req.params.thoughtId;
+    const reactionId = req.params.reactionId;
+    
+    await Thought.updateOne({ _id: thoughtId }, { $pull: {reactions: { _id: ObjectId(reactionId) } }, $inc: { reactionsCount: -1 } } );
+    
+    const thought = await Thought.findOne({ _id: thoughtId });
+    res.send(thought);
+});
 
 
 
