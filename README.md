@@ -55,7 +55,7 @@ ___
 [MIT License](https://choosealicense.com/licenses/mit/)    
 
 
-## Available Scripts
+## Getting started
 
 In the project directory, you can run:
 
