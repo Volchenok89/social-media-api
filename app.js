@@ -152,7 +152,7 @@ app.get("/api/thoughts", async (req, res) => {
     }
 });
 
-app.put("/api/thoughts/:id", async (req, res) => {
+app.get("/api/thoughts/:id", async (req, res) => {
     let thought = await Thought.findOne({ _id: req.params.id });
 
     if (thought != null) {
