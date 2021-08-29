@@ -169,9 +169,7 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 
 /////////////////////////////////////////////
 
-app.put("/api/thoughts/:thoughtId", async (req, res) => {
-    const thoughtId = await ThoughtId.findOne({ _id: req.params.thoughtId });
-    const thoughtId = await ThoughtId.updateOne({ _id: req.params.thoughtId }, req.body);
+
   
     app.put("/api/thoughts/:thoughtId", async (req, res) => {
         await ThoughtId.updateOne({ _id: req.params.thoughtId }, req.body);
@@ -224,4 +222,4 @@ app.listen(PORT, async () => {
     });
     
     console.log(`App listening on port ${PORT}!`);
-})});
+});
