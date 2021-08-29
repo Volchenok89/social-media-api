@@ -3,7 +3,7 @@ const config = require('./config');
 const mongoose = require('mongoose');
 const { User, Thought, Reaction } = require("./models");
 const { response } = require('express');
-var ObjectId = require('mongodb').ObjectID;
+let ObjectId = require('mongodb').ObjectID;
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -154,7 +154,7 @@ app.get("/api/thoughts", async (req, res) => {
 
 app.get("/api/thoughts/:thoughtId", async (req, res) => {
     const thought = await Thought.findOne({ _id: req.params.thoughtId });
-  
+    const thought = await Thought.updateOne(req.body);
     try {
       res.send(thought);
     } 
@@ -169,40 +169,15 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 
 /////////////////////////////////////////////
 
-app.put("/api/thoughts/:id", async (req, res) => {
-    const thoughts = await Thought.find({});
+app.put("/api/thoughts/:thoughtId", async (req, res) => {
+    const thoughtId = await ThoughtId.findOne({ _id: req.params.thoughtId });
+    const thoughtId = await ThoughtId.updateOne({ _id: req.params.thoughtId }, req.body);
   
-    if (thought != null) {
-        await Thought.updateOne({ _id: req.params.id });
-
-        res.send({
-            "message": "Thought updated"
-        });
-    }
-    else {
-        res.send({
-            "message": "Thought id not found"
-        });
-    }
-});
-
-updateThought({ params, body }, res); {
-    Thought.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
-        .populate({
-            path: "reactions",
-            select: '-__v'
-        })
-        .select("-__v")
-        .then(dbThoughtData => {
-            if (!dbThoughtData) {
-                res.status(404).json({ message: "Nothing found with this id!" });
-                return;
-            }
-            res.json(dbThoughtData);
-        })
-        .catch(err => res.status(400).json(err));
-
-};
+    app.put("/api/thoughts/:thoughtId", async (req, res) => {
+        await ThoughtId.updateOne({ _id: req.params.thoughtId }, req.body);
+        let thoughtId = await ThoughtId.findOne({ _id: req.params.thoughtId });
+        res.send(thoughtId);
+    });
 
 
 
@@ -211,7 +186,7 @@ updateThought({ params, body }, res); {
 
 app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
     const thoughtId = req.params.thoughtId;
-    var id = mongoose.Types.ObjectId();
+    let id = mongoose.Types.ObjectId();
     let reaction = req.body;
     reaction._id = id;
     
@@ -249,4 +224,4 @@ app.listen(PORT, async () => {
     });
     
     console.log(`App listening on port ${PORT}!`);
-});
+})});
