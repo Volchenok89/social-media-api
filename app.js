@@ -170,15 +170,11 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 /////////////////////////////////////////////
 
 
-  
-    app.put("/api/thoughts/:thoughtId", async (req, res) => {
-        await ThoughtId.updateOne({ _id: req.params.thoughtId }, req.body);
-        let thoughtId = await ThoughtId.findOne({ _id: req.params.thoughtId });
-        res.send(thoughtId);
-    });
-
-
-
+app.put("/api/thoughts/:thoughtId", async (req, res) => {
+    const thoughtId = await Thought.updateOne({ _id: req.params.thoughtId }, req.body);
+    const thoughtId = await Thought.findOne({ _id: req.params.thoughtId });
+    res.send(thoughtId);
+});
 
 //REACTIONS//
 
