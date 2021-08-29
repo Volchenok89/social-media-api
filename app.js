@@ -11,17 +11,6 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.post("/api/users", async (request, response) => {
-    const user = new User(request.body);
-
-    try {
-      await user.save();
-      response.send(user);
-    } 
-    catch (error) {
-      response.status(500).send(error);
-    }
-});
 
 //FRIENDS//
 
@@ -45,6 +34,18 @@ app.delete("/api/users/:userId/friends/:friendId", async (req, res) => {
 
 
 //USERS//
+
+app.post("/api/users", async (request, response) => {
+    const user = new User(request.body);
+
+    try {
+      await user.save();
+      response.send(user);
+    } 
+    catch (error) {
+      response.status(500).send(error);
+    }
+});
 
 app.put("/api/users/:id", async (req, res) => {
     await User.updateOne({ _id: req.params.id }, req.body);
@@ -166,12 +167,23 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 //NEEDS AN UPDATE THOUGHT CODE//
 
 app.put("/api/thoughts/:thoughtId", async (req, res) => {
-    await Thought.updateOne({ _id: req.params.id }, req.body);
     let thought = await Thought.findOne({ _id: req.params.id });
-    res.send(thought);
+
+    if (thought != null) {
+        await Thought.updateOne({ _id: req.params.id });
+
+        res.send({
+            "message": "Thought modified"
+        });
+    }
+    else {
+        res.send({
+            "message": "Thought not found"
+        });
+    }
 });
 
-/////////////////////////
+
 
 
 //REACTIONS//
