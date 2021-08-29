@@ -167,9 +167,14 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 //NEEDS AN UPDATE THOUGHT CODE//
 
 app.put("/api/thoughts/:thoughtId", async (req, res) => {
-    await Thought.findOne({ _id: req.params.thoughtId });
-    let thought = await User.updateOne({ _id: req.thoughtId });
-    res.send(thought);
+    const thought = await Thought.updateOne({ _id: req.params.thoughtId });
+  
+    try {
+      res.send(thought);
+    } 
+    catch (error) {
+      res.status(500).send(error);
+    }
 });
 
 
