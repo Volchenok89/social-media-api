@@ -152,14 +152,20 @@ app.get("/api/thoughts", async (req, res) => {
     }
 });
 
-app.get("/api/thoughts/:thoughtId", async (req, res) => {
-    const thought = await Thought.findOne({ _id: req.params.thoughtId });
-  
-    try {
-      res.send(thought);
-    } 
-    catch (error) {
-      res.status(500).send(error);
+app.put("/api/thoughts/:id", async (req, res) => {
+    let thought = await Thought.findOne({ _id: req.params.id });
+
+    if (thought != null) {
+        await Thought.updateOne({ _id: req.params.id });
+
+        res.send({
+            "message": "Thought updated"
+        });
+    }
+    else {
+        res.send({
+            "message": "Thought id not found"
+        });
     }
 });
 
