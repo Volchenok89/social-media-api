@@ -1,7 +1,7 @@
 const express = require('express');
 const config = require('./config');
 const mongoose = require('mongoose');
-const { User, Thought } = require("./models");
+const { User, Thought, Reaction } = require("./models");
 const { response } = require('express');
 
 const app = express();
@@ -162,19 +162,15 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 });
 
 
-//UPDATED post//
+//NEEDS AN UPDATE THOUGHT CODE//
 
-
-app.post("/api/thoughts/:id", async (req, res) => {
-    const thoughtId = req.params.thoughtId;
-    
-    await Thought.updateOne({ _id: thoughtId }, { $push: { reactions: req.body }, $inc: { reactionsCount: 1 } } );
-    
-    const thought = await Thought.findOne({ _id: thoughtId });
+app.put("/api/thoughts/:thoughtId", async (req, res) => {
+    await Thought.updateOne({ _id: req.params.id }, req.body);
+    let thought = await Thought.findOne({ _id: req.params.id });
     res.send(thought);
 });
 
-//END UPDATED//
+/////////////////////////
 
 
 //REACTIONS//
@@ -189,22 +185,10 @@ app.post("/api/thoughts/:thoughtId/reactions", async (req, res) => {
 });
 
 
-app.delete("/api/thoughts/:thoughtId/reactions", async (req, res) => {
-    let thought = await Thought.findOne({ _id: req.params.id });
+//NEEDS A DELETE REACTION CODE//
 
-    if (thought != null) {
-        await Thought.deleteOne({ _id: req.params.id });
 
-        res.send({
-            "message": "Reaction deleted"
-        });
-    }
-    else {
-        res.send({
-            "message": "Reaction id not found"
-        });
-    }
-});
+
 
 
 app.listen(PORT, async () => {
