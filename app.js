@@ -153,8 +153,25 @@ app.get("/api/thoughts", async (req, res) => {
 });
 
 app.get("/api/thoughts/:id", async (req, res) => {
-    let thought = await Thought.findOne({ _id: req.params.id });
+    const thoughts = await Thought.find({});
+  
+    try {
+      res.send(thoughts);
+    } 
+    catch (error) {
+      res.status(500).send(error);
+    }
+});
 
+
+
+//NEEDS AN UPDATE THOUGHT CODE//
+
+/////////////////////////////////////////////
+
+app.put("/api/thoughts/:id", async (req, res) => {
+    const thoughts = await Thought.find({});
+  
     if (thought != null) {
         await Thought.updateOne({ _id: req.params.id });
 
@@ -168,21 +185,6 @@ app.get("/api/thoughts/:id", async (req, res) => {
         });
     }
 });
-
-
-//NEEDS AN UPDATE THOUGHT CODE//
-
-app.put("/api/thoughts/:thoughtId", async (req, res) => {
-    const thought = await Thought.updateOne({ _id: req.params.thoughtId });
-  
-    try {
-      res.send(thought);
-    } 
-    catch (error) {
-      res.status(500).send(error);
-    }
-});
-
 
 //REACTIONS//
 
