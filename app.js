@@ -164,13 +164,6 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 });
 
 
-//NEEDS AN UPDATE THOUGHT CODE//
-
-/////////////////////////////////////////////
-
-
-
-
 
 //REACTIONS//
 
