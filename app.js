@@ -167,23 +167,10 @@ app.get("/api/thoughts/:thoughtId", async (req, res) => {
 //NEEDS AN UPDATE THOUGHT CODE//
 
 app.put("/api/thoughts/:thoughtId", async (req, res) => {
-    let thought = await Thought.findOne({ _id: req.params.id });
-
-    if (thought != null) {
-        await Thought.updateOne({ _id: req.params.id });
-
-        res.send({
-            "message": "Thought modified"
-        });
-    }
-    else {
-        res.send({
-            "message": "Thought not found"
-        });
-    }
+    await Thought.updateOne({ _id: req.params.thoughtId });
+    let thought = await User.findOne({ _id: req.thoughtId });
+    res.send(thought);
 });
-
-
 
 
 //REACTIONS//
