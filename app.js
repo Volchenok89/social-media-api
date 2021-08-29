@@ -152,11 +152,11 @@ app.get("/api/thoughts", async (req, res) => {
     }
 });
 
-app.get("/api/thoughts/:id", async (req, res) => {
-    const thoughts = await Thought.find({});
+app.get("/api/thoughts/:thoughtId", async (req, res) => {
+    const thought = await Thought.findOne({ _id: req.params.thoughtId });
   
     try {
-      res.send(thoughts);
+      res.send(thought);
     } 
     catch (error) {
       res.status(500).send(error);
@@ -184,6 +184,12 @@ app.put("/api/thoughts/:id", async (req, res) => {
             "message": "Thought id not found"
         });
     }
+});
+
+app.put("/api/thoughts/:id", async (req, res) => {
+    await Thought.updateOne({ _id: req.params.id }, req.username);
+    let user = await Thought.findOne({ _id: req.params.id });
+    res.send(thought);
 });
 
 //REACTIONS//
