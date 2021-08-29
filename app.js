@@ -152,6 +152,16 @@ app.get("/api/thoughts", async (req, res) => {
     }
 });
 
+app.get("/api/thoughts/:thoughtId", async (req, res) => {
+    const thought = await Thought.findOne({ _id: req.params.thoughtId });
+  
+    try {
+      res.send(thought);
+    } 
+    catch (error) {
+      res.status(500).send(error);
+    }
+});
 
 
 //NEEDS AN UPDATE THOUGHT CODE//
@@ -159,11 +169,8 @@ app.get("/api/thoughts", async (req, res) => {
 /////////////////////////////////////////////
 
 
-app.put("/api/thoughts/:thoughtId", async (req, res) => {
-    const thoughtId = await Thought.updateOne({ _id: req.params.thoughtId }, req.body);
-    const thoughtId = await Thought.findOne({ _id: req.params.thoughtId });
-    res.send(thoughtId);
-});
+
+
 
 //REACTIONS//
 
